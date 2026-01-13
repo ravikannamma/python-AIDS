@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Python Operators MCQ</title>
+
+<style>
+body{
+    background-color:pink;
+    font-family:Arial;
+}
+.container{
+    width:65%;
+    margin:auto;
+    margin-top:50px;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+}
+.option{
+    margin:8px 0;
+}
+button{
+    padding:10px 18px;
+    font-size:15px;
+    margin:10px;
+}
+.center{
+    text-align:center;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+th,td{
+    border:1px solid black;
+    padding:8px;
+}
+th{
+    background:#f4a6c1;
+}
+pre{
+    background:#f2f2f2;
+    padding:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="quizBox">
+    <h3 id="qno"></h3>
+    <pre id="question"></pre>
+    <div id="options"></div>
+
+    <div class="center">
+        <button onclick="prev()">Previous</button>
+        <button onclick="next()">Next</button>
+    </div>
+</div>
+
+<script>
+const quiz = [
+{
+q:`a = 5
+b = 2
+print(a // b)`,
+o:["2.5","2","3","Error"],
+a:1
+},
+{
+q:`a = 10
+b = a
+print(a is b)`,
+o:["True","False","Error","None"],
+a:0
+},
+{
+q:`x = [1,2,3]
+y = x
+y.append(4)
+print(x)`,
+o:["[1,2,3]","[1,2,3,4]","Error","None"],
+a:1
+},
+{
+q:`a = 1000
+b = 1000
+print(a is b)`,
+o:["True","False","Error","None"],
+a:1
+},
+{
+q:`print(5 + 3 * 2)`,
+o:["16","11","10","Error"],
+a:1
+},
+{
+q:`a = 5
+a += 3
+print(a)`,
+o:["5","8","Error","None"],
+a:1
+},
+{
+q:`print(~5)`,
+o:["5","-5","-6","6"],
+a:2
+},
+{
+q:`print(3 < 5 and 5 < 2)`,
+o:["True","False","Error","None"],
+a:1
+},
+{
+q:`x = 5
+print(x in [1,2,3])`,
+o:["True","False","Error","None"],
+a:1
+},
+{
+q:`a = [1,2]
+b = [1,2]
+print(a == b, a is b)`,
+o:["True True","True False","False True","False False"],
+a:1
+}
+];
+
+let i = 0;
+let ans = new Array(quiz.length).fill(null);
+
+function load(){
+    if(i >= quiz.length){
+        summary();
+        return;
+    }
+    document.getElementById("qno").innerText = "Question " + (i+1);
+    document.getElementById("question").innerText = quiz[i].q;
+
+    let html="";
+    quiz[i].o.forEach((opt,idx)=>{
+        html += `
+        <div class="option">
+            <input type="radio" name="opt"
+            ${ans[i]===idx?"checked":""}
+            onclick="ans[${i}]=${idx}">
+            ${opt}
+        </div>`;
+    });
+    document.getElementById("options").innerHTML = html;
+}
+
+function next(){ i++; load(); }
+function prev(){ if(i>0) i--; load(); }
+
+function summary(){
+    let score=0;
+    let out = `<h2>Quiz Summary</h2>
+    <table>
+    <tr>
+        <th>Question</th>
+        <th>Your Answer</th>
+        <th>Correct Answer</th>
+    </tr>`;
+
+    quiz.forEach((q,idx)=>{
+        let ua = ans[idx]!==null ? q.o[ans[idx]] : "Not Answered";
+        let ca = q.o[q.a];
+        if(ans[idx]===q.a) score++;
+
+        out += `
+        <tr>
+            <td><pre>${q.q}</pre></td>
+            <td>${ua}</td>
+            <td>${ca}</td>
+        </tr>`;
+    });
+
+    out += `</table><h3>Score: ${score} / ${quiz.length}</h3>`;
+    document.getElementById("quizBox").innerHTML = out;
+}
+
+load();
+</script>
+
+</body>
+</html>
