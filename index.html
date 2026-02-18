@@ -1,187 +1,213 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Python Operators MCQ</title>
+<title>Python List Comprehension Test</title>
 
 <style>
 body{
-    background-color:pink;
-    font-family:Arial;
-}
-.container{
-    width:65%;
-    margin:auto;
-    margin-top:50px;
-    background:white;
-    padding:25px;
-    border-radius:10px;
-}
-.option{
-    margin:8px 0;
-}
-button{
-    padding:10px 18px;
-    font-size:15px;
-    margin:10px;
-}
-.center{
+    font-family: Arial;
+    background: linear-gradient(120deg,#1e3c72,#2a5298);
+    color:white;
     text-align:center;
 }
-table{
-    width:100%;
-    border-collapse:collapse;
+
+.container{
+    background:white;
+    color:black;
+    width:70%;
+    margin:30px auto;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.4);
 }
-th,td{
-    border:1px solid black;
-    padding:8px;
+
+h1{color:#1e3c72}
+
+.question{
+    font-size:20px;
+    margin-bottom:15px;
 }
-th{
-    background:#f4a6c1;
-}
-pre{
+
+.options label{
+    display:block;
     background:#f2f2f2;
+    margin:8px;
     padding:10px;
+    border-radius:8px;
+    cursor:pointer;
 }
+
+.options label:hover{
+    background:#dfe9ff;
+}
+
+button{
+    padding:10px 18px;
+    margin:10px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+    background:#2a5298;
+    color:white;
+}
+
+.timer{
+    font-size:18px;
+    margin-bottom:10px;
+    color:#c0392b;
+    font-weight:bold;
+}
+
+.correct{color:green;font-weight:bold}
+.wrong{color:red;font-weight:bold}
+.na{color:orange;font-weight:bold}
 </style>
 </head>
 
 <body>
 
-<div class="container" id="quizBox">
-    <h3 id="qno"></h3>
-    <pre id="question"></pre>
-    <div id="options"></div>
+<div class="container">
 
-    <div class="center">
-        <button onclick="prev()">Previous</button>
-        <button onclick="next()">Next</button>
-    </div>
+<h1>Python List Comprehension Test</h1>
+<div class="timer">Time: <span id="time">0</span> sec</div>
+
+<div id="quiz"></div>
+
+<button onclick="prevQ()">Previous</button>
+<button onclick="nextQ()">Next</button>
+<button onclick="submitQuiz()">Submit</button>
+
 </div>
 
 <script>
-const quiz = [
-{
-q:`a = 5
-b = 2
-print(a // b)`,
-o:["2.5","2","3","Error"],
-a:1
-},
-{
-q:`a = 10
-b = a
-print(a is b)`,
-o:["True","False","Error","None"],
-a:0
-},
-{
-q:`x = [1,2,3]
-y = x
-y.append(4)
-print(x)`,
-o:["[1,2,3]","[1,2,3,4]","Error","None"],
-a:1
-},
-{
-q:`a = 1000
-b = 1000
-print(a is b)`,
-o:["True","False","Error","None"],
-a:1
-},
-{
-q:`print(5 + 3 * 2)`,
-o:["16","11","10","Error"],
-a:1
-},
-{
-q:`a = 5
-a += 3
-print(a)`,
-o:["5","8","Error","None"],
-a:1
-},
-{
-q:`print(~5)`,
-o:["5","-5","-6","6"],
-a:2
-},
-{
-q:`print(3 < 5 and 5 < 2)`,
-o:["True","False","Error","None"],
-a:1
-},
-{
-q:`x = 5
-print(x in [1,2,3])`,
-o:["True","False","Error","None"],
-a:1
-},
-{
-q:`a = [1,2]
-b = [1,2]
-print(a == b, a is b)`,
-o:["True True","True False","False True","False False"],
-a:1
-}
+
+const questions = [
+
+{q:"1. Output of: [x*x for x in range(5)] ?",
+o:["[1,4,9,16,25]","[0,1,4,9,16]","[0,1,2,3,4]","Error"],a:1},
+
+{q:"2. Which produces only even numbers from 1–10?",
+o:["[x for x in range(1,11) if x%2==0]",
+"[x if x%2==0 for x in range(1,11)]",
+"[x%2==0 for x in range(1,11)]",
+"None"],a:0},
+
+{q:"3. Output: [i for i in 'PYTHON'] ?",
+o:["Error","['PYTHON']",
+"['P','Y','T','H','O','N']",
+"[P,Y,T,H,O,N]"],a:2},
+
+{q:"4. Result of [x for x in range(5) if x>2] ?",
+o:["[2,3,4]","[3,4]","[0,1,2]","[]"],a:1},
+
+{q:"5. Output: [x*2 for x in [1,2,3]] ?",
+o:["[1,2,3]","[2,4,6]","[1,4,9]","Error"],a:1},
+
+{q:"6. Which removes negative numbers?",
+o:["[x for x in L if x>=0]",
+"[x>=0 for x in L]",
+"[x for x>=0 in L]",
+"None"],a:0},
+
+{q:"7. Output: [i for i in range(3) for j in range(2)] ?",
+o:["[0,1,2]","[0,1,2,0,1,2]",
+"[0,0,1,1,2,2]","Error"],a:2},
+
+{q:"8. Which squares only odd numbers?",
+o:["[x*x for x in range(10) if x%2]",
+"[x*x if x%2 for x in range(10)]",
+"[x*x for x%2 in range(10)]",
+"None"],a:0},
+
+{q:"9. Output: [x for x in range(5) if x==3] ?",
+o:["[3]","3","[]","Error"],a:0},
+
+{q:"10. Output: [len(s) for s in ['a','ab','abc']] ?",
+o:["[1,2,3]","[3,2,1]","[1,1,1]","Error"],a:0},
+
+{q:"11. Output: [i+j for i in [1,2] for j in [10,20]] ?",
+o:["[11,21,12,22]","[11,12,21,22]","[10,20]","Error"],a:0},
+
+{q:"12. Output: [x for x in range(5) if x%2==1] ?",
+o:["[1,3]","[2,4]","[0,2,4]","Error"],a:0},
+
+{q:"13. Which creates list of ASCII codes?",
+o:["[ord(c) for c in 'ABC']",
+"[ascii(c) for c in 'ABC']",
+"[code(c) for c in 'ABC']",
+"None"],a:0},
+
+{q:"14. Output: [x for x in range(3) if x<0] ?",
+o:["[0,1,2]","[]","Error","[0]"],a:1},
+
+{q:"15. Output: [x if x%2==0 else 0 for x in range(5)] ?",
+o:["[0,0,2,0,4]","[0,2,4]","[1,3]","Error"],a:0}
+
 ];
 
-let i = 0;
-let ans = new Array(quiz.length).fill(null);
+let index=0;
+let answers=new Array(questions.length).fill(null);
+let time=0;
 
-function load(){
-    if(i >= quiz.length){
-        summary();
-        return;
-    }
-    document.getElementById("qno").innerText = "Question " + (i+1);
-    document.getElementById("question").innerText = quiz[i].q;
+setInterval(()=>{
+time++;
+document.getElementById("time").textContent=time;
+},1000);
 
-    let html="";
-    quiz[i].o.forEach((opt,idx)=>{
-        html += `
-        <div class="option">
-            <input type="radio" name="opt"
-            ${ans[i]===idx?"checked":""}
-            onclick="ans[${i}]=${idx}">
-            ${opt}
-        </div>`;
-    });
-    document.getElementById("options").innerHTML = html;
+function loadQ(){
+let q=questions[index];
+let html=`<div class="question">${q.q}</div><div class="options">`;
+
+q.o.forEach((opt,i)=>{
+let checked=answers[index]==i?"checked":"";
+html+=`<label>
+<input type="radio" ${checked}
+onclick="answers[${index}]=${i}">
+${opt}</label>`;
+});
+
+html+=`</div>`;
+document.getElementById("quiz").innerHTML=html;
 }
 
-function next(){ i++; load(); }
-function prev(){ if(i>0) i--; load(); }
+function nextQ(){ if(index<questions.length-1){index++; loadQ();} }
+function prevQ(){ if(index>0){index--; loadQ();} }
 
-function summary(){
-    let score=0;
-    let out = `<h2>Quiz Summary</h2>
-    <table>
-    <tr>
-        <th>Question</th>
-        <th>Your Answer</th>
-        <th>Correct Answer</th>
-    </tr>`;
+function submitQuiz(){
 
-    quiz.forEach((q,idx)=>{
-        let ua = ans[idx]!==null ? q.o[ans[idx]] : "Not Answered";
-        let ca = q.o[q.a];
-        if(ans[idx]===q.a) score++;
+let score=0;
+let summary="<h1>Detailed Summary</h1>";
 
-        out += `
-        <tr>
-            <td><pre>${q.q}</pre></td>
-            <td>${ua}</td>
-            <td>${ca}</td>
-        </tr>`;
-    });
+questions.forEach((q,i)=>{
 
-    out += `</table><h3>Score: ${score} / ${quiz.length}</h3>`;
-    document.getElementById("quizBox").innerHTML = out;
+let user=answers[i];
+let correct=q.a;
+
+let status="";
+
+if(user===null) status='<span class="na">Not Attempted</span>';
+else if(user===correct){status='<span class="correct">Correct</span>'; score++;}
+else status='<span class="wrong">Wrong</span>';
+
+summary+=`
+<hr>
+<p><b>Q${i+1}:</b> ${q.q}</p>
+<p>Your Answer: ${user!==null ? q.o[user] : "Not Attempted"}</p>
+<p>Correct Answer: ${q.o[correct]}</p>
+<p>Status: ${status}</p>
+`;
+});
+
+summary+=`<h2>Score: ${score}/${questions.length}</h2>
+<h2>Time Taken: ${time} sec</h2>`;
+
+document.querySelector(".container").innerHTML=summary;
 }
 
-load();
+loadQ();
+
 </script>
 
 </body>
